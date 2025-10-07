@@ -52,7 +52,7 @@ cat_features = [
 X_train, y_train, encoder, lb = process_data(
     train,
     categorical_features=cat_features,
-    label="salary",
+    label='salary',
     training=True
     # use the train dataset 
     # use training=True
@@ -62,7 +62,7 @@ X_train, y_train, encoder, lb = process_data(
 X_test, y_test, _, _ = process_data(
     test,
     categorical_features=cat_features,
-    label="salary",
+    label = 'salary',
     training=False,
     encoder=encoder,
     lb=lb,
@@ -96,11 +96,14 @@ for col in cat_features:
     for slicevalue in sorted(test[col].unique()):
         count = test[test[col] == slicevalue].shape[0]
         p, r, fb = performance_on_categorical_slice(
-            # your code here
-            # use test, col and slicevalue as part of the input
             test,
             col,
-            slicevalue
+            slicevalue,
+            categorical_features=cat_features,
+            label='salary',
+            encoder=encoder,
+            lb=lb,
+            model=model
         )
         with open("slice_output.txt", "a") as f:
             print(f"{col}: {slicevalue}, Count: {count:,}", file=f)

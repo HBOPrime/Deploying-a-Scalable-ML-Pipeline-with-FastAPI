@@ -1,28 +1,44 @@
 import pytest
-# TODO: add necessary import
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+
+from ml.model import train_model, compute_model_metrics, inference
+from ml.data import apply_label
 
 # TODO: implement the first test. Change the function name and input as needed
-def test_one():
+def test_model_type():
     """
-    # add description for the first test
+    Ensure that the model type being used is RandomForest
     """
-    # Your code here
-    pass
-
+    X = np.random.rand(50, 4)
+    y = np.random.randint(0, 2, size=50)
+    model = train_model(X, y)
+    assert isinstance(model, RandomForestClassifier)
 
 # TODO: implement the second test. Change the function name and input as needed
-def test_two():
+def test_model_metrics():
     """
-    # add description for the second test
+    Test that metrics returned are valid
     """
-    # Your code here
-    pass
-
+    X = np.random.rand(30, 3)
+    y = np.random.randint(0, 2, size=30)
+    model = train_model(X, y)
+    preds = inference(model, X)
+    pr, re, fb = compute_model_metrics(y, preds)
+    assert isinstance(pr, float)
+    assert isinstance(re, float)
+    assert isinstance(fb, float)
+    assert 0.0 <= pr <= 1.0
+    assert 0.0 <= re <= 1.0
+    assert 0.0 <= fb <= 1.0
 
 # TODO: implement the third test. Change the function name and input as needed
-def test_three():
+def test_apply_label():
     """
-    # add description for the third test
+    Test that the expected outputs from the tests are returned
     """
-    # Your code here
-    pass
+    expected_outputs = {'>50K','<=50K'}
+    assert apply_label([1]) in expected_outputs
+    assert apply_label([0]) in expected_outputs
